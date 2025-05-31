@@ -16,7 +16,7 @@ pipeline {
         stage('Code Scan (Placeholder)') {
             steps {
                 echo "Running basic code scan (placeholder)..."
-                sh 'ls -la && cat app.py || echo "app.py not found"'
+                sh 'ls -la && cat index.html || echo "index.html not found"'
             }
         }
 
