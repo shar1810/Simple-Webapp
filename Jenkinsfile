@@ -1,5 +1,9 @@
 pipeline {
     agent any
+    
+        options {
+        skipDefaultCheckout(true)
+        }
 
     environment {
         IMAGE_NAME = "us-central1-docker.pkg.dev/clever-axe-447305-k1/sample-images-repo/simple-webapp"
