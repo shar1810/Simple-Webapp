@@ -20,6 +20,17 @@ pipeline {
             }
         }
 
+        stage('Authenticate GCP') {
+            steps {
+                withCredentials([file(credentialsId: 'gcp-service-account-json', variable: 'SERVICE_ACCOUNT_KEY')]) {
+                    sh '''
+                        gcloud auth activate-service-account --key-file=$SERVICE_ACCOUNT_KEY
+                        gcloud auth configure-docker us-central1-docker.pkg.dev
+                    '''
+                }
+            }
+        }
+        
         stage('Build Docker Image') {
             steps {
                 script {
