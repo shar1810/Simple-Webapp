@@ -7,6 +7,11 @@ pipeline {
     }
 
     stages {
+        stage('Clone Repo') {
+            steps {
+                git url: 'https://github.com/shar1810/Simple-Webapp.git', branch: 'main'
+            }
+        }
 
         stage('Code Scan (Placeholder)') {
             steps {
@@ -28,7 +33,9 @@ pipeline {
         
         stage('Build Docker Image') {
             steps {
-                sh "docker build -t $IMAGE_NAME:$TAG ."
+                script {
+                    sh "docker build -t \$IMAGE_NAME:\$TAG ."
+                }
             }
         }
 
@@ -40,16 +47,20 @@ pipeline {
 
         stage('Push to Artifact Registry') {
             steps {
-                sh "docker push $IMAGE_NAME:$TAG"
+                script {
+                    sh "docker push \$IMAGE_NAME:\$TAG"
+                }
             }
         }
 
         stage('Deploy Locally') {
             steps {
-                sh '''
-                    docker rm -f simple-webapp || true
-                    docker run -d -p 82:80 --name simple-webapp $IMAGE_NAME:$TAG
-                '''
+                script {
+                    // Stop old container if exists
+                    sh "docker rm -f simple-webapp || true"
+                    // Run new container
+                    sh "docker run -d -p 82:80 --name simple-webapp \$IMAGE_NAME:\$TAG"
+                }
             }
         }
     }
