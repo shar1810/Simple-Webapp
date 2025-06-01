@@ -59,7 +59,7 @@ pipeline {
                     // Stop old container if exists
                     sh "docker rm -f simple-webapp || true"
                     // Run new container
-                    sh "docker run -d -p 82:5000 --name simple-webapp \$IMAGE_NAME:\$TAG"
+                    sh "docker run -d -p 82:80 --name simple-webapp \$IMAGE_NAME:\$TAG"
                 }
             }
         }
