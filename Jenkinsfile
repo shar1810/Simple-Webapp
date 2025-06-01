@@ -23,7 +23,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    sh "docker build -t \$IMAGE_NAME:\$TAG -f carvilla-v1.0/Dockerfile carvilla-v1.0/"
+                    sh "docker build -t \$IMAGE_NAME:\$TAG ."
                 }
             }
         }
