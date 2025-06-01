@@ -7,6 +7,13 @@ pipeline {
     }
 
     stages {
+        
+        stage('Clean Workspace') {
+            steps {
+                  deleteDir()
+                }
+            }
+        
         stage('Checkout') {
             steps {
                 git url: 'https://github.com/shar1810/Simple-Webapp.git', branch: 'main'
