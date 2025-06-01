@@ -8,7 +8,7 @@ pipeline {
 
     stages {
         stage('Clone Repo') {
-            steps {
+           steps {
                 git branch: 'main', url: 'https://github.com/shar1810/Simple-Webapp.git'
             }
         }
