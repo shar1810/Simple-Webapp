@@ -7,11 +7,9 @@ pipeline {
     }
 
     stages {
-        
-        stage('Checkout') {
+        stage('Clone Repo') {
             steps {
-                checkout([$class: 'GitSCM', branches: [[name: '*/main']],
-                          userRemoteConfigs: [[url: 'https://github.com/shar1810/Simple-Webapp.git']]])
+                git url: 'https://github.com/shar1810/Simple-Webapp.git', branch: 'main'
             }
         }
 
