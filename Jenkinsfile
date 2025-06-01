@@ -1,9 +1,5 @@
 pipeline {
     agent any
-    
-        options {
-        skipDefaultCheckout(true)
-        }
 
     environment {
         IMAGE_NAME = "us-central1-docker.pkg.dev/clever-axe-447305-k1/sample-images-repo/simple-webapp"
@@ -11,11 +7,6 @@ pipeline {
     }
 
     stages {
-        stage('Clone Repo') {
-            steps {
-                git url: 'https://github.com/shar1810/Simple-Webapp.git', branch: 'main'
-            }
-        }
 
         stage('Code Scan (Placeholder)') {
             steps {
@@ -37,9 +28,7 @@ pipeline {
         
         stage('Build Docker Image') {
             steps {
-                script {
-                    sh "docker build -t \$IMAGE_NAME:\$TAG ."
-                }
+                sh "docker build -t $IMAGE_NAME:$TAG ."
             }
         }
 
@@ -51,20 +40,16 @@ pipeline {
 
         stage('Push to Artifact Registry') {
             steps {
-                script {
-                    sh "docker push \$IMAGE_NAME:\$TAG"
-                }
+                sh "docker push $IMAGE_NAME:$TAG"
             }
         }
 
         stage('Deploy Locally') {
             steps {
-                script {
-                    // Stop old container if exists
-                    sh "docker rm -f simple-webapp || true"
-                    // Run new container
-                    sh "docker run -d -p 82:80 --name simple-webapp \$IMAGE_NAME:\$TAG"
-                }
+                sh '''
+                    docker rm -f simple-webapp || true
+                    docker run -d -p 82:80 --name simple-webapp $IMAGE_NAME:$TAG
+                '''
             }
         }
     }
